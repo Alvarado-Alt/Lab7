@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 // Bubble Sort Function
-void bubbleSort(int arr[], int n, int swaps[]) {
+void bubbleSort(int arr[], int n, int swaps[], int *t) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -12,15 +12,16 @@ void bubbleSort(int arr[], int n, int swaps[]) {
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
         
-                // Input to swap counter
+                // addd to swap counters
                 swaps[arr[j]]++;
+                (*t)++;
             }
         }
     }
 }
 
 // Selection Sort Function
-void selectionSort(int arr[], int n, int swaps[]) {
+void selectionSort(int arr[], int n, int swaps[], int *t) {
     for (int i = 0; i < n - 1; i++) {
         int min_index = i;
         for (int j = i + 1; j < n; j++) {
@@ -34,13 +35,14 @@ void selectionSort(int arr[], int n, int swaps[]) {
         arr[min_index] = arr[i];
         arr[i] = temp;
         
-        // Input to swap counter
+        // Add to swap counters
         swaps[arr[i]]++;
+        (*t)++;
     }
 }
 
 // Print output for # of swaps and total # of swaps
-void printSwaps(int arr[], int n, int swaps[]) {
+void printSwaps(int arr[], int n, int swaps[], int t) {
 
     // # of swaps per value
     for (int i = 0; i < n; i++) {
@@ -48,11 +50,7 @@ void printSwaps(int arr[], int n, int swaps[]) {
     }
 
     // Total # of swaps
-    int totalSwaps = 0;
-    for (int i = 0; i < n; i++) {
-        totalSwaps += swaps[arr[i]];
-    }
-    printf("total # of swaps: %d\n\n", totalSwaps);
+    printf("total # of swaps: %d\n\n", t);
 }
 
 int main() {
@@ -71,17 +69,23 @@ int main() {
         swaps1[i] = 0;
         swaps2[i] = 0;
     }
+    
+    int totalSwaps1;
+    int totalSwaps2;
 
-    // Call Bubble Sort
+
+    // Bubble Sort print out
     printf("Bubble Sort:\n");
+    
+    // Sort and print for array 1
     printf("array1:\n");
-    bubbleSort(array1, size1, swaps1);
-    printSwaps(array1, size1, swaps1);
-
-    // Print Swaps for Bubble Sort
+    bubbleSort(array1, size1, swaps1, &totalSwaps1);
+    printSwaps(array1, size1, swaps1, totalSwaps1);
+    
+    // Sort and print Bubble Sort for array 2
     printf("array2:\n");
-    bubbleSort(array2, size2, swaps2);
-    printSwaps(array2, size2, swaps2);
+    bubbleSort(array2, size2, swaps2, &totalSwaps2);
+    printSwaps(array2, size2, swaps2, totalSwaps2);
 
     // Reset arrays and swaps for selection sort next
     for (int i = 0; i < 100; i++) {
@@ -89,18 +93,20 @@ int main() {
         swaps2[i] = 0;
     }
 
-    // Call Selection Sort
+    // Selection Sort print out
     printf("Selection Sort:\n");
+    
+    // Sort and print for array 1
     printf("array1:\n");
-    selectionSort(array1, size1, swaps1);
-    printSwaps(array1, size1, swaps1);
+    selectionSort(array1, size1, swaps1, &totalSwaps1);
+    printSwaps(array1, size1, swaps1, totalSwaps1);
 
-    // Print Swaps for Selection Sort
+    // Sort and print for array 2
     printf("array2:\n");
-    selectionSort(array2, size2, swaps2);
-    printSwaps(array2, size2, swaps2);
+    selectionSort(array2, size2, swaps2, &totalSwaps2);
+    printSwaps(array2, size2, swaps2, totalSwaps2);
 
-    // Free dynamically allocated memory
+    // Free memory
     free(swaps1);
     free(swaps2);
 
